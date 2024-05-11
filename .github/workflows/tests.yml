@@ -1,0 +1,29 @@
+name: tests
+
+on:
+  push:
+
+jobs:
+  simple:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: main-success
+        uses: ./
+        with:
+          workflow_id: test-success.yml
+      - if: steps.main-success.outputs.workflow_conclusion != 'success'
+        run: |
+          echo "Expected 'success', but was '${{steps.main-success.outputs.workflow_conclusion}}'"
+          exit 1
+
+      - uses: actions/checkout@v4
+      - id: main-failing
+        uses: ./
+        with:
+          workflow_id: test-failing.yml
+      - if: steps.main-failing.outputs.workflow_conclusion != 'failure'
+        run: |
+          echo "Expected 'failing', but was '${{steps.main-failing.outputs.workflow_conclusion}}'"
+          exit 1
