@@ -4,14 +4,14 @@ branding:
   color: green
 inputs:
   workflow_id:
-    description: The ID of the workflow. You can also pass the workflow file name as a string.
+    description: The ID of filename of workflow.
     required: true
   branch:
-    description: Returns workflow runs associated with a branch. Use the name of the branch of the push.
+    description: Target branch (default is current branch).
     required: false
 outputs:
   workflow_conclusion:
-    description: The workflow conclusion ("success", "failing" or "cancelled")
+    description: The workflow conclusion ("success", "failure", "cancelled", or null if yet in progress)
     value: ${{ steps.run.outputs.result }}
 runs:
   using: "composite"
