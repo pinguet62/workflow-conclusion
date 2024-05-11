@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  simple:
+  branches:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,6 +13,7 @@ jobs:
         uses: ./
         with:
           workflow_id: test-success.yml
+          branch: test-cases
       - if: steps.main-success.outputs.workflow_conclusion != 'success'
         run: |
           echo "Expected 'success', but was '${{steps.main-success.outputs.workflow_conclusion}}'"
@@ -23,6 +24,7 @@ jobs:
         uses: ./
         with:
           workflow_id: test-failing.yml
+          branch: test-cases
       - if: steps.main-failing.outputs.workflow_conclusion != 'failure'
         run: |
           echo "Expected 'failing', but was '${{steps.main-failing.outputs.workflow_conclusion}}'"

@@ -6,6 +6,9 @@ inputs:
   workflow_id:
     description: The ID of the workflow. You can also pass the workflow file name as a string.
     required: true
+  branch:
+    description: Returns workflow runs associated with a branch. Use the name of the branch of the push.
+    required: false
 outputs:
   workflow_conclusion:
     description: The workflow conclusion ("success", "failing" or "cancelled")
@@ -17,12 +20,14 @@ runs:
       uses: actions/github-script@v7
       env:
         INPUT_WORKFLOW_ID: ${{ inputs.workflow_id }}
+        INPUT_BRANCH: ${{ inputs.branch }}
       with:
         script: |
           const result = await github.rest.actions.listWorkflowRuns({
             owner: context.repo.owner,
             repo: context.repo.repo,
             workflow_id: core.getInput('workflow_id'),
+            branch: core.getInput('branch'),
           })
           return result.data.workflow_runs[0].conclusion
         result-encoding: string

@@ -2,6 +2,7 @@ name: test failing
 
 on:
   push:
+    branches: test-cases
 
 jobs:
   test:
