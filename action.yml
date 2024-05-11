@@ -9,6 +9,10 @@ inputs:
   branch:
     description: Target branch (default is current branch).
     required: false
+  skip:
+    description: Skip some executions in result
+    required: false
+    default: 0
 outputs:
   workflow_conclusion:
     description: The workflow conclusion ("success", "failure", "cancelled", or null if yet in progress)
@@ -21,6 +25,7 @@ runs:
       env:
         INPUT_WORKFLOW_ID: ${{ inputs.workflow_id }}
         INPUT_BRANCH: ${{ inputs.branch }}
+        INPUT_SKIP: ${{ inputs.skip }}
       with:
         script: |
           const result = await github.rest.actions.listWorkflowRuns({
@@ -29,5 +34,6 @@ runs:
             workflow_id: core.getInput('workflow_id'),
             branch: core.getInput('branch'),
           })
-          return result.data.workflow_runs[0].conclusion
+          const index = core.getInput('skip')
+          return result.data.workflow_runs[index].conclusion
         result-encoding: string
