@@ -1,4 +1,5 @@
 name: 'Get conclusion of last workflow'
+description: 'Query action API to find latest workflow execution and extract conclusion'
 branding:
   icon: check
   color: green
