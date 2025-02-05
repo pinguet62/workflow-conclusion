@@ -10,10 +10,11 @@ inputs:
   branch:
     description: Target branch (default is current branch).
     required: false
+    default: ${{ github.head_ref || github.ref_name }}
   skip:
     description: Skip some executions in result
     required: false
-    default: 0
+    default: "0"
 outputs:
   workflow_conclusion:
     description: The workflow conclusion ("success", "failure", "cancelled", or null if yet in progress)
